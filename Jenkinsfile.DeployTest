@@ -1,0 +1,17 @@
+node {
+   stage('Checkout') {
+      checkout scm
+   }
+   stage('Copy Artifacts') {
+      step ([$class: 'CopyArtifact',
+          projectName: 'Create Test Image',
+          filter: 'ami-test.txt',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './']);
+   }
+   stage('Deploy') {
+      def TEST_IMAGE=sh(returnStdout: true, script: 'cat ami-test.txt').trim()
+      sh("/usr/local/bin/ansible-playbook provision/aws-update.yml --extra-vars "env_name=aws image_id=$TEST_IMAGE"")
+   }
+}
