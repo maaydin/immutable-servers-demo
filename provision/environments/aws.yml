@@ -5,7 +5,7 @@
   # You should create subnets on different availibility zones manually as it is not provided ec2_vpc_subnet module with ansible <= 2.0
   vpc_id: vpc-6bfc300e
   subnet_az_a: subnet-58df2601
-  subnet_az_b: subnet-a006a3d7
+  subnet_az_b: subnet-67279b02
   az_a: eu-west-1a
   az_b: eu-west-1b
   ssh_key_name: demo
