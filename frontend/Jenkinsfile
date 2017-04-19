@@ -3,10 +3,12 @@ node {
       checkout scm
    }
    stage('Build') {
-      sh "rm -rf target && mkdir -p target"
-      sh "zip -r target/static_content.zip index.html"
+      dir("frontend") {
+         sh "rm -rf target && mkdir -p target"
+         sh "zip -r target/static_content.zip index.html"
+      }
    }
    stage('Publish Artifacts') {
-      archive 'target/static_content.zip'
+      archive 'frontend/target/static_content.zip'
    }
 }
