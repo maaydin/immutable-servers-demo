@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>Ansible Tutorial Lab #6</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> <!-- load bootstrap via CDN -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> <!-- load jquery via CDN -->
+    <script>
+    $(document).ready(function() {
+
+        // process the form
+        $('form').submit(function(event) {
+
+            // get the form data
+            // there are many ways to get this data using jQuery (you can use the class or id also)
+            var formData = {
+                'name'              : $('input[name=name]').val(),
+            };
+
+            // process the form
+            $.ajax({
+                type        : 'GET', // define the type of HTTP verb we want to use
+                url         : '/greeting?name='+$('input[name=name]').val(), // the url where we want to POST
+                dataType    : 'json', // what type of data do we expect back from the server
+                            encode          : true
+            })
+                // using the done promise callback
+                .done(function(data) {
+
+                    // log data to the console so we can see
+                    console.log(data); 
+
+                    $("#result").html(data.content);
+
+                    // here we will handle errors and validation messages
+                });
+
+            // stop the form from submitting the normal way and refreshing the page
+            event.preventDefault();
+        });
+
+    });
+    </script>
+</head>
+<body>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1>Ansible Tutorial Lab #6</h1>
+
+    <!-- OUR FORM -->
+    <form action="/greeting?name=" method="GET">
+        
+        <!-- NAME -->
+        <div id="name-group" class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Henry Pym">
+            <!-- errors will go here -->
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
+
+    </form>
+
+    <h2 id="result"></h2>
+
+</div>
+</body>
+</html>
