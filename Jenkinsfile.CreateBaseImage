@@ -5,9 +5,15 @@ node {
    stage('Copy Artifacts') {
       step ([$class: 'CopyArtifact',
           projectName: 'Build FrontEnd',
-          filter: 'frontend/target/*.zip']);
+          filter: 'frontend/target/*.zip',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './provision/roles/deploy_static_content/files/']);
       step ([$class: 'CopyArtifact',
           projectName: 'Build Backend',
-          filter: 'backend/target/*.jar']);
+          filter: 'backend/target/*.jar',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './provision/roles/deploy_application/files/']);
    }
 }
