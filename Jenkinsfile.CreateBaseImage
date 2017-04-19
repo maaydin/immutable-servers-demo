@@ -2,20 +2,6 @@ node {
    stage('Checkout') {
       checkout scm
    }
-   stage('Copy Artifacts') {
-      step ([$class: 'CopyArtifact',
-          projectName: 'Build FrontEnd',
-          filter: 'frontend/target/*.zip',
-          fingerprintArtifacts: true,
-          flatten: true,
-          target: './provision/roles/deploy_static_content/files/']);
-      step ([$class: 'CopyArtifact',
-          projectName: 'Build Backend',
-          filter: 'backend/target/*.jar',
-          fingerprintArtifacts: true,
-          flatten: true,
-          target: './provision/roles/deploy_application/files/']);
-   }
    stage('Build Base Image') {
       sh("packer build packer/ami-base.json 2>&1 | tee output.txt")
       sh("tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ami-base.txt")

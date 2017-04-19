@@ -1,0 +1,34 @@
+node {
+   stage('Checkout') {
+      checkout scm
+   }
+   stage('Copy Artifacts') {
+      step ([$class: 'CopyArtifact',
+          projectName: 'Build FrontEnd',
+          filter: 'frontend/target/*.zip',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './provision/roles/deploy_static_content/files/']);
+      step ([$class: 'CopyArtifact',
+          projectName: 'Build Backend',
+          filter: 'backend/target/*.jar',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './provision/roles/deploy_application/files/']);
+      step ([$class: 'CopyArtifact',
+          projectName: 'Create Base Image',
+          filter: 'ami-base.txt',
+          fingerprintArtifacts: true,
+          flatten: true,
+          target: './']);
+   }
+   stage('Build Test Image') {
+      def BASE_IMAGE=sh(returnStdout: true, script: 'cat ami-base.txt').trim()
+      sh("sed -i "s/.*source_ami.*/      \"source_ami\": \"$BASE_IMAGE\",/g" packer/ami.json")
+      sh("packer build packer/ami.json 2>&1 | tee output.txt
+      sh("tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ami-test.txt")
+   }
+   stage('Publish Image Id') {
+      archive 'ami-test.txt'
+   }
+}
