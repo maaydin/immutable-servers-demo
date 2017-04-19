@@ -12,6 +12,6 @@ node {
    }
    stage('Deploy') {
       def TEST_IMAGE=sh(returnStdout: true, script: 'cat ami-test.txt').trim()
-      sh("/usr/local/bin/ansible-playbook provision/aws-update.yml --extra-vars \"env_name=aws image_id=$TEST_IMAGE\"")
+      sh("ansible-playbook provision/aws-init.yml --extra-vars \"env_name=aws image_id=$TEST_IMAGE\"")
    }
 }
