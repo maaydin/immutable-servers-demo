@@ -25,7 +25,7 @@ node {
    stage('Build Test Image') {
       def BASE_IMAGE=sh(returnStdout: true, script: 'cat ami-base.txt').trim()
       sh("sed -i \"s/.*source_ami.*/      \\\"source_ami\\\": \\\"$BASE_IMAGE\\\",/g\" packer/ami.json")
-      sh("packer build packer/ami.json 2>&1 | tee output.txt
+      sh("packer build packer/ami.json 2>&1 | tee output.txt")
       sh("tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ami-test.txt")
    }
    stage('Publish Image Id') {
