@@ -2,6 +2,6 @@
   static_content_file_name: static_content.zip
   oracle_jdk_version: 8u111
   oracle_jdk_build_number: b14
-  app_file_name: greeting.jar
+  app_file_name: greeting-0.1.0.jar
   app_config_file_name: config.yaml
   app_port: 8090

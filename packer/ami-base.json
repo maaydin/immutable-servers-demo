@@ -7,7 +7,7 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "provision/ami.yml",
+      "playbook_file": "provision/ami-base.yml",
       "playbook_dir": "provision",
       "extra_arguments" : [
           "--extra-vars",
