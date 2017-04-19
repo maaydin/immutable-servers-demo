@@ -10,6 +10,6 @@
   az_b: eu-west-1b
   ssh_key_name: demo
   # Autoscaling Group min, max and desired numbers of intances
-  min_size: 1
+  min_size: 2
   max_size: 4
-  desired_capacity: 1
+  desired_capacity: 2

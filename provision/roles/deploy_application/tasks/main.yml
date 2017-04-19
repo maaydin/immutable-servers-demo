@@ -1,5 +1,4 @@
 ---
-
 - name: add group "greeting"
   group: name=greeting
 
