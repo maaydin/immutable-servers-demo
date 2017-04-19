@@ -4,4 +4,4 @@
   oracle_jdk_build_number: b14
   app_file_name: greeting-0.1.0.jar
   app_config_file_name: config.yaml
-  app_port: 8090
+  app_port: 8080
